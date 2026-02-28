@@ -10,7 +10,7 @@
     "start": "ts-node src/server.ts",
     "test": "jest src/tests --testPathIgnorePatterns=integration --watch",
     "test:unit": "jest src/tests/TimeDepositCalculator.test.ts --watch",
-    "test:integration": "jest src/tests/db.integration.test.ts --watch=false",
+    "test:integration": "jest src/tests --testPathPattern=integration --watch=false",
     "migrate": "ts-node scripts/migrate.ts"
   },
   "engines": {
