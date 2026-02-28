@@ -31,6 +31,16 @@ This is optional, you can choose to use `npm` itself.
 
 `yarn install` or `npm install`
 
+## Database setup
+
+Create the database and run migrations:
+
+```sh
+createdb time_deposit
+yarn migrate
+yarn seed
+```
+
 ## Run the server
 
 ### Dev server while watching
@@ -44,3 +54,18 @@ This is optional, you can choose to use `npm` itself.
 ### Run server
 
 `yarn start`
+
+## Triggering endpoints via Swagger
+
+1. Start the server: `yarn dev` or `yarn start`
+2. Open http://localhost:3000/api-docs in a browser
+3. Use the Swagger UI to try the two endpoints:
+   - **GET /time-deposits** – list all time deposits with withdrawals
+   - **PUT /time-deposits/balance** – update balances using interest rules
+
+Or use curl:
+
+```sh
+curl http://localhost:3000/time-deposits
+curl -X PUT http://localhost:3000/time-deposits/balance
+```
