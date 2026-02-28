@@ -23,7 +23,7 @@ export const studentStrategy: InterestStrategy = {
   appliesTo: (d) =>
     d.planType === 'student' &&
     d.days > NO_INTEREST_DAYS &&
-    d.days < 366,
+    d.days < 366, // Assuming a year has 365 days
   monthlyInterest: (d) => monthlyInterestForRate(d.balance, 0.03),
 }
 

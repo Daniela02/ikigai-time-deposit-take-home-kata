@@ -25,7 +25,28 @@ describe('TimeDepositService', () => {
       expect(count).toBe(2)
       expect(saved).toHaveLength(2)
       expect(saved[0].balance).toBeCloseTo(1000.83, 2)
+      expect(saved[0].days).toBe(75)
       expect(saved[1].balance).toBeCloseTo(2005, 2)
+      expect(saved[1].days).toBe(130)
+    })
+
+    it('applies no interest to student plan past 1 year (400 days)', async () => {
+      const deposits = [new TimeDeposit(1, 'student', 5000, 400)]
+      let saved: TimeDeposit[] = []
+
+      const fakeRepo: TimeDepositRepository = {
+        findAll: async () => [...deposits],
+        findAllWithWithdrawals: async () => [],
+        saveAll: async (d) => {
+          saved = [...d]
+        },
+      }
+
+      const service = new TimeDepositService(fakeRepo)
+      await service.updateAllBalances()
+
+      expect(saved[0].balance).toBe(5000)
+      expect(saved[0].days).toBe(430)
     })
   })
 

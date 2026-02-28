@@ -4,6 +4,9 @@ import {
   TimeDepositWithWithdrawals,
 } from '../db/ports/TimeDepositRepository'
 
+// Assuming a month has 30 days
+const MONTHLY_INTEREST_DAYS = 30
+
 export class TimeDepositService {
   constructor(
     private readonly repository: TimeDepositRepository,
@@ -13,6 +16,11 @@ export class TimeDepositService {
   async updateAllBalances(): Promise<number> {
     const deposits = await this.repository.findAll()
     this.calculator.updateBalance(deposits)
+
+    for (const d of deposits) { 
+      d.days += MONTHLY_INTEREST_DAYS
+    }
+
     await this.repository.saveAll(deposits)
     
     return deposits.length

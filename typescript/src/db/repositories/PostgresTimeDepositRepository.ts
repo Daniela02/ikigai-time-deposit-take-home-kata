@@ -56,8 +56,8 @@ export class PostgresTimeDepositRepository implements TimeDepositRepository {
   async saveAll(deposits: TimeDeposit[]): Promise<void> {
     for (const d of deposits) {
       await this.pool.query(
-        'UPDATE time_deposits SET balance = $1, plan_type = $2, days = $3 WHERE id = $4',
-        [d.balance, d.planType, d.days, d.id]
+        'UPDATE time_deposits SET balance = $1, days = $2 WHERE id = $3',
+        [d.balance, d.days, d.id]
       )
     }
   }
