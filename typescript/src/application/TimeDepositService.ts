@@ -14,8 +14,6 @@ export class TimeDepositService {
     const deposits = await this.repository.findAll()
     this.calculator.updateBalance(deposits)
     await this.repository.saveAll(deposits)
-
-    console.log(`Updated Deposits: ${deposits.length}`)
     
     return deposits.length
   }
