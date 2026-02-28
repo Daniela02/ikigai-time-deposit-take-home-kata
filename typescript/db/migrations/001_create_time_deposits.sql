@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS time_deposits (
+  id SERIAL PRIMARY KEY,
+  plan_type VARCHAR(255) NOT NULL,
+  days INTEGER NOT NULL,
+  balance NUMERIC(20, 2) NOT NULL
+);
