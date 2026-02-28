@@ -1,0 +1,84 @@
+openapi: 3.0.3
+info:
+  title: Time Deposit API
+  description: "XA Bank time deposit management. Two endpoints - list all time deposits with withdrawals, and update all balances."
+  version: 1.0.0
+
+paths:
+  /time-deposits:
+    get:
+      summary: List all time deposits
+      description: Returns all time deposits with their withdrawals.
+      operationId: listTimeDeposits
+      responses:
+        '200':
+          description: List of time deposits with withdrawals
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TimeDepositWithWithdrawals'
+
+  /time-deposits/balance:
+    put:
+      summary: Update balances of all time deposits
+      description: Calculates monthly interest for all time deposits and updates their balances in the database.
+      operationId: updateBalances
+      responses:
+        '200':
+          description: Balances updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  updated:
+                    type: integer
+                    description: Number of time deposits updated
+
+components:
+  schemas:
+    TimeDepositWithWithdrawals:
+      type: object
+      required:
+        - id
+        - planType
+        - balance
+        - days
+        - withdrawals
+      properties:
+        id:
+          type: integer
+          description: Unique identifier
+        planType:
+          type: string
+          enum: [basic, student, premium]
+          description: Plan type determining interest rules
+        balance:
+          type: number
+          format: double
+          description: Current balance
+        days:
+          type: integer
+          description: Number of days since deposit
+        withdrawals:
+          type: array
+          items:
+            $ref: '#/components/schemas/Withdrawal'
+
+    Withdrawal:
+      type: object
+      required:
+        - id
+        - amount
+        - date
+      properties:
+        id:
+          type: integer
+        amount:
+          type: number
+          format: double
+        date:
+          type: string
+          format: date
